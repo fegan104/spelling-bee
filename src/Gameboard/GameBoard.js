@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import './Gameboard.css'
 import Heaxagon from "../Hexagon/Hexagon";
 import { actions } from '../actions';
+import { isValidWordAsync } from '../dictionaryDataSource.js'
 
 
 const ERROR_TIMEOUT = 1_500
@@ -24,6 +25,11 @@ function GameBoard({
       type: actions.ADD_LETTER,
       payload: letter
     })
+  }
+
+  const onEnter = async () => {
+    const isValid = await isValidWordAsync(activeInput.join(""))
+    dispatch({ type: actions.ENTER_WORD, payload: isValid })
   }
 
   const renderSpanWithAccent = (spanContent, accentLetter) => {
@@ -74,7 +80,7 @@ function GameBoard({
       <div className="controls-section">
         <button key={0} className="pill-button" onClick={() => dispatch({ type: actions.DELETE_LETTER })}> Delete </button>
         <button key={1} className="pill-button" onClick={() => dispatch({ type: actions.SHUFFLE })}> Shuffle </button>
-        <button key={2} className="pill-button" onClick={() => dispatch({ type: actions.ENTER_WORD, payload: true })}> Enter </button>
+        <button key={2} className="pill-button" onClick={onEnter}> Enter </button>
       </div>
     </div>
   );

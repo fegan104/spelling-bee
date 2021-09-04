@@ -74,6 +74,7 @@ function isPangram(letterArray) {
 }
 
 function computeScore({ submittedWord, previousWords, requiredLetter, currentScore, isWord }) {
+  console.log(`isWord: ${isWord}`)
   if (submittedWord.length < 4) {
     return {
       nextScore: currentScore,
