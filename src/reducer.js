@@ -5,8 +5,8 @@ export const reducer = (state, action) => {
     case actions.ADD_LETTER:
       return {
         ...state,
-        input: [
-          ...state.input,
+        activeInput: [
+          ...state.activeInput,
           action.payload
         ]
       }
@@ -20,19 +20,37 @@ export const reducer = (state, action) => {
     case actions.DELETE_LETTER:
       return {
         ...state,
-        input: [...state.input.slice(0, -1)]
+        activeInput: [...state.activeInput.slice(0, -1)]
       }
 
     case actions.ENTER_WORD:
+      const { nextScore, error } = computeScore({
+        submittedWord: state.activeInput.join(""),
+        requiredLetter: state.innerLetter,
+        previousWords: state.submittedWords,
+        currentScore: state.score,
+        isWord: action.payload
+      })
+
       return {
         ...state,
-        input: [],
-        score: computeScore({
-          submittedWord: state.input,
-          requiredLetter: state.innerLetter,
-          currentScore: state.score,
-          isWord: action.payload
-        }),
+        activeInput: [],
+        submittedWords: error ? state.submittedWords : [...new Set([...state.submittedWords, state.activeInput.join("")])],
+        score: nextScore,
+        error
+      }
+
+    case actions.SET_LETTERS:
+      return {
+        ...state,
+        innerLetter: action.payload.innerLetter,
+        outerLetters: action.payload.outerLetters,
+      }
+
+    case actions.CLEAR_ERROR:
+      return {
+        ...state,
+        error: ""
       }
     default:
       return state
@@ -40,11 +58,13 @@ export const reducer = (state, action) => {
 }
 
 function shuffle(array) {
-  for (var i = 1; i < array.length; i++) {
-    const n = Math.floor(Math.random() * (array.length - i) + i);
-    const temp = array[i - 1]
-    array[i - 1] = array[n]
-    array[n] = temp
+  var i = array.length
+  while (i > 1) {
+    i = i - 1
+    const j = Math.floor(Math.random() * i) // 0 <= j < i
+    const temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
   }
   return [...array]
 }
@@ -53,17 +73,40 @@ function isPangram(letterArray) {
   return (new Set(letterArray).length) === 7
 }
 
-function computeScore({ submittedWord, requiredLetter, currentScore, isWord }) {
-  if (!isWord) {
-    return currentScore
-  } else if (submittedWord.length < 4) {
-    return currentScore
+function computeScore({ submittedWord, previousWords, requiredLetter, currentScore, isWord }) {
+  if (submittedWord.length < 4) {
+    return {
+      nextScore: currentScore,
+      error: "Too short"
+    }
   } else if (!submittedWord.includes(requiredLetter)) {
-    return currentScore
+    return {
+      nextScore: currentScore,
+      error: "Missing center letter"
+    }
+  } else if (!isWord) {
+    return {
+      nextScore: currentScore,
+      error: "Not in word list"
+    }
+  } else if (previousWords.includes(submittedWord)) {
+    return {
+      nextScore: currentScore,
+      error: "Already found"
+    }
+  } else if (submittedWord.length < 4) {
+    return {
+      nextScore: currentScore,
+      error: "Too short"
+    }
   } else if (submittedWord.length === 4) {
-    return currentScore + 1
+    return {
+      nextScore: currentScore + 1
+    }
   } else {
     const pangramBonus = isPangram(submittedWord) ? 7 : 0;
-    return currentScore + submittedWord.length + pangramBonus
+    return {
+      nextScore: (currentScore + submittedWord.length + pangramBonus)
+    }
   }
 }

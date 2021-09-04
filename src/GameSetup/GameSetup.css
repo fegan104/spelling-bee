@@ -1,0 +1,44 @@
+.inputs-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-wrap: wrap;
+  background-color: #f6cb43;
+}
+
+.bee-icon {
+  font-size: 100px;
+  width: 100vw;
+}
+
+.setup-title {
+  font-size: 32px;
+  width: 100vw;
+}
+
+.game-setup-input {
+  width: 90vw;
+  padding: 8px;
+  font-size: 20px;
+  margin: 16px;
+  border: 3px solid;
+  color: black;
+  background: transparent;
+  border-radius: 4px;
+  outline: black;
+}
+
+::placeholder {
+  color: black;
+  opacity: 0.8;
+}
+
+.game-setup-button {
+  margin-top: 16px;
+  width: 90vw;
+  font-size: 18px;
+  font-weight: bold;
+  color: #f6cb43;
+  background: black;
+}

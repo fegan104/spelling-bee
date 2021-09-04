@@ -1,21 +1,21 @@
-import React, { useReducer } from 'react';
+import React, { useEffect } from 'react';
 import './Gameboard.css'
-import Heaxagon from "./Hexagon";
-import { actions } from './actions';
-import { reducer } from './reducer';
+import Heaxagon from "../Hexagon/Hexagon";
+import { actions } from '../actions';
 
-const initState = {
-  innerLetter: "D",
-  outerLetters: ["A", "B", "C", "E", "F", "G"],
-  score: 0,
-  submittedWords: [],
-  input: []
-}
 
-function GameBoard() {
+function GameBoard({
+  innerLetter,
+  outerLetters,
+  score,
+  activeInput,
+  error,
+  dispatch
+}) {
 
-  const [state, dispatch] = useReducer(reducer, initState)
-  const { input, outerLetters, innerLetter } = state
+  useEffect(() => {
+    setTimeout(() => dispatch({ type: actions.CLEAR_ERROR }), 1_500)
+  }, [error, dispatch])
 
   const onHexClicked = (letter) => {
     dispatch({
@@ -28,8 +28,8 @@ function GameBoard() {
     return (
       <span>
         {
-          spanContent.map(letter => {
-            return (letter === accentLetter) ? <span style={{ color: "#f6cb43" }}>{letter}</span> : letter;
+          spanContent.map((letter, index) => {
+            return (letter === accentLetter) ? <span key={index} style={{ color: "#f6cb43" }}>{letter}</span> : letter;
           })
         }
       </span>
@@ -39,11 +39,15 @@ function GameBoard() {
   return (
     <div>
       <div className="score">
-        Score: {state.score}
+        Score: {score}
+      </div>
+
+      <div className="error-container" >
+        {error ? <div className="error">{error}</div> : <div />}
       </div>
 
       <div className="input-section">
-        {renderSpanWithAccent(input, innerLetter)}
+        {renderSpanWithAccent(activeInput, innerLetter)}
         <span className="blinking-cursor">|</span>
       </div>
 
@@ -68,7 +72,7 @@ function GameBoard() {
       <div className="controls-section">
         <button key={0} className="pill-button" onClick={() => dispatch({ type: actions.DELETE_LETTER })}> Delete </button>
         <button key={1} className="pill-button" onClick={() => dispatch({ type: actions.SHUFFLE })}> Shuffle </button>
-        <button key={2} className="pill-button" onClick={() => dispatch({ type: actions.ENTER_WORD , payload: true})}> Enter </button>
+        <button key={2} className="pill-button" onClick={() => dispatch({ type: actions.ENTER_WORD, payload: true })}> Enter </button>
       </div>
     </div>
   );
