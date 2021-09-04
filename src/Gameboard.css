@@ -1,0 +1,62 @@
+.gameboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}
+
+.controls-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+}
+
+.pill-button {
+  background-color: #fff;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  cursor: pointer;
+  border-radius: 100px;
+  border: 1px solid black;
+}
+
+.score {
+  font-size: 18;
+  font-weight: bold;
+  margin: 16px;
+}
+
+.input-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10vh;
+  width: 100vw;
+}
+
+.input-section span {
+  font-weight: bold;
+  font-size: 40px;
+  color: #000;
+}
+
+.blinking-cursor {
+  animation: 1s blink step-end infinite;
+}
+
+@keyframes blink {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: #f6cb43;
+  }
+}

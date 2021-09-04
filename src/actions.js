@@ -1,0 +1,6 @@
+export const actions = {
+  ADD_LETTER: "ADD_LETTER",
+  DELETE_LETTER: "DELETE_LETTER",
+  ENTER_WORD: "ENTER_WORD",
+  SHUFFLE: "SHUFFLE",
+}
