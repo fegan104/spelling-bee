@@ -19,19 +19,28 @@ function GameSetup({ dispatch }) {
         <input
           className="game-setup-input"
           placeholder="Center Letter"
+          autoFocus
           value={centerLetterInput}
           onChange={event => setCenterLetterInput(event.target.value?.charAt(0).toLocaleUpperCase())}
         />
+        
         <input
           className="game-setup-input"
           placeholder="Outer Letters"
           value={outerLetterInput}
           onChange={event => setOuterLetterInput(
-            [...new Set(event.target.value.toUpperCase().split(""))].splice(0, 6).join("")
+            [...new Set(
+              event.target.value
+              .toUpperCase()
+              .split("")
+              .filter(char => char.match(/[A-Z]/i))
+            )].splice(0, 6).join("")
           )}
         />
+
         <button
           className="pill-button game-setup-button"
+          disabled={outerLetterInput.length < 6 || centerLetterInput === ""}
           onClick={() => dispatch({
             type: actions.SET_LETTERS,
             payload: {

@@ -4,6 +4,8 @@ import Heaxagon from "../Hexagon/Hexagon";
 import { actions } from '../actions';
 
 
+const ERROR_TIMEOUT = 1_500
+
 function GameBoard({
   innerLetter,
   outerLetters,
@@ -14,7 +16,7 @@ function GameBoard({
 }) {
 
   useEffect(() => {
-    setTimeout(() => dispatch({ type: actions.CLEAR_ERROR }), 1_500)
+    setTimeout(() => dispatch({ type: actions.CLEAR_ERROR }), ERROR_TIMEOUT)
   }, [error, dispatch])
 
   const onHexClicked = (letter) => {

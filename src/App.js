@@ -15,7 +15,7 @@ const initState = {
 function App() {
 
   const [state, dispatch] = useReducer(reducer, initState)
-  console.log(JSON.stringify(state, null, 4))
+
   return (
     <div className="App">
       {
