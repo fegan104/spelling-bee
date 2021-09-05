@@ -16,7 +16,7 @@ export const fetchDictionary = async () => {
   try {
     const response = await fetch("/processed_words.txt")
     const fileString = await response.text()
-    dictionary = fileString.split("\r\n")
+    dictionary = fileString.split("\n")
   } catch (err) {
     console.error(err)
     sendDictionaryDownloadFailedEvent(err)
