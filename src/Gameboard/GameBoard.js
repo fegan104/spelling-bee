@@ -31,7 +31,9 @@ function GameBoard({
   }
 
   const onEnter = async () => {
+    console.log(`Submitting ${activeInput.join("")}`)
     const isValid = await isValidWordAsync(activeInput.join(""))
+    console.log(`isValid(${activeInput.join("")}) = ${isValid}`)
     dispatch({ type: actions.ENTER_WORD, payload: isValid })
   }
 
