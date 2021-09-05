@@ -17,7 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-const sendToFirebaseAnalytics = ({ id, name, value }) => {
+export const sendToFirebaseAnalytics = ({ id, name, value }) => {
   logEvent(analytics, name, {
     category: 'Web Vitals',
     value: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
@@ -25,4 +25,12 @@ const sendToFirebaseAnalytics = ({ id, name, value }) => {
   });
 }
 
-export { sendToFirebaseAnalytics };
+export const sendGameStartEvent = () => {
+  logEvent(analytics, "game_start");
+}
+
+export const sendDictionaryDownloadFailedEvent = (errorMsg) => {
+  logEvent(analytics, "dictionary_download_failed", {
+    error: errorMsg
+  });
+}

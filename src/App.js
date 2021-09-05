@@ -26,6 +26,7 @@ function App() {
             outerLetters={state.outerLetters}
             score={state.score}
             activeInput={state.activeInput}
+            previousWords={state.submittedWords}
             error={state.error}
             dispatch={dispatch}
           />

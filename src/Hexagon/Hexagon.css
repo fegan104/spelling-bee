@@ -1,17 +1,69 @@
+:root {
+  --hexagon-height: 100px;
+  --hexagon-width: calc(0.6 * var(--hexagon-height));
+  --hexagon-margin-horizontal: calc(0.18 * var(--hexagon-height));
+  --hexagon-margin-btm: calc(0.05 * var(--hexagon-height));
+  --hexagon-border-vert: calc(0.5 * var(--hexagon-height));
+  --hexagon-border-horiz: calc(0.3 * var(--hexagon-height));
+  --hexagon-padding-top: calc(0.25 * var(--hexagon-height));
+  --hexagon-font-size: calc(0.4 * var(--hexagon-height));
+  --outer-hexagon-color: #e6e6e6;
+  --inner-hexagon-color: #f6cb43;
+}
+
 .hexagon {
-  height: 100px;
-  width: 60px;
+  height: var(--hexagon-height);
+  width: var(--hexagon-width);
   position: relative;
-  padding-top: 25px;
+  padding-top: var(--hexagon-padding-top);
   box-sizing: border-box;
   color: black;
-  font-size: 40px;
-  margin-right: 18px;
-  margin-left: 18px;
-  margin-bottom: 5px;
+  font-size: var(--hexagon-font-size);
+  margin-right: var(--hexagon-margin-horizontal);
+  margin-left: var(--hexagon-margin-horizontal);
+  margin-bottom: var(--hexagon-margin-btm);
   text-align: center;
   font-weight: bold;
   user-select: none;
+}
+
+.hexagon::before, .hexagon::after {
+  content: "";
+  position: absolute;
+  height: 0;
+  width: 0;
+  top: 0;
+  border-top: var(--hexagon-border-vert) solid transparent;
+  border-bottom: var(--hexagon-border-vert) solid transparent;
+}
+
+.hexagon.outer::before {
+  left: calc(-1 * var(--hexagon-border-horiz));
+  border-right: var(--hexagon-border-horiz) solid var(--outer-hexagon-color);
+}
+
+.hexagon.inner::before {
+  left: calc(-1 * var(--hexagon-border-horiz));
+  border-right: var(--hexagon-border-horiz) solid var(--inner-hexagon-color);
+}
+
+.hexagon.outer::after {
+  right: calc(-1 * var(--hexagon-border-horiz));
+  border-left: var(--hexagon-border-horiz) solid var(--outer-hexagon-color);
+}
+
+.hexagon.inner::after {
+  right: calc(-1 * var(--hexagon-border-horiz));
+  border-left: var(--hexagon-border-horiz) solid var(--inner-hexagon-color);
+}
+
+.outer {
+  background-color: var(--outer-hexagon-color);
+  border-color: var(--outer-hexagon-color);
+}
+
+.inner {
+  background-color: var(--inner-hexagon-color);
 }
 
 .fadeOut {
@@ -21,43 +73,4 @@
 .fadeIn {
   opacity: 1;
   transition: opacity 0.3s;
-}
-
-.hexagon::before, .hexagon::after {
-  content: "";
-  position: absolute;
-  height: 0;
-  width: 0;
-  top: 0;
-  border-top: 50px solid transparent;
-  border-bottom: 50px solid transparent;
-}
-
-.hexagon.outer::before {
-  left: -30px;
-  border-right: 30px solid #e6e6e6;
-}
-
-.hexagon.inner::before {
-  left: -30px;
-  border-right: 30px solid #f6cb43;
-}
-
-.hexagon.outer::after {
-  right: -30px;
-  border-left: 30px solid #e6e6e6;
-}
-
-.hexagon.inner::after {
-  right: -30px;
-  border-left: 30px solid #f6cb43;
-}
-
-.outer {
-  background-color: #e6e6e6;
-  border-color: #e6e6e6;
-}
-
-.inner {
-  background-color: #f6cb43;
 }

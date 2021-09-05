@@ -1,20 +1,29 @@
+import { sendDictionaryDownloadFailedEvent } from './firebase'
+
+//in-memory cache of acceptable words
 let dictionary = []
 
+/**
+ * Gets dictionary (hopefully from service worker cache) then caches those
+ * words in memory for easier word look up. You can call this repeatedly as 
+ * once the dictionary is cached this funciton is a no-op.
+ */
+export const fetchDictionary = async () => {
+  if (dictionary.length > 0) {
+    return
+  }
 
-const fetchDictionary = async () => {
-  if (dictionary.length === 0) {
-    console.log("Waiting ⏳...")
-    console.time('dictionary');
+  try {
     const response = await fetch("/processed_words.txt")
     const fileString = await response.text()
     dictionary = fileString.split("\r\n")
-    console.timeEnd('dictionary');
-    console.log("Dictionary fetched ✅")
+  } catch (err) {
+    console.error(err)
+    sendDictionaryDownloadFailedEvent(err)
   }
 }
 
-const isValidWordAsync = async (word) => {
+export const isValidWordAsync = async (word) => {
+  await fetchDictionary()
   return dictionary.includes(word.toLowerCase())
 }
-
-export { isValidWordAsync, fetchDictionary };

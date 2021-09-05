@@ -1,20 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Gameboard.css'
 import Heaxagon from "../Hexagon/Hexagon";
 import { actions } from '../actions';
 import { isValidWordAsync } from '../dictionaryDataSource.js'
 
 
-const ERROR_TIMEOUT = 1_500
+const ERROR_TIMEOUT = 2_000
 
 function GameBoard({
   innerLetter,
   outerLetters,
   score,
   activeInput,
+  previousWords,
   error,
   dispatch
 }) {
+
+  const [expanded, setExpanded] = useState(false)
 
   useEffect(() => {
     setTimeout(() => dispatch({ type: actions.CLEAR_ERROR }), ERROR_TIMEOUT)
@@ -48,6 +51,31 @@ function GameBoard({
     <div>
       <div className="score">
         Score: {score}
+      </div>
+
+      <div className="word-bank">
+        <div
+          className="word-bank-flex-section"
+          style={{
+            flexWrap: expanded ? "wrap" : "nowrap"
+          }}
+        >
+          {
+            previousWords?.map(word =>
+              <div key={word} style={{ margin: "4px", fontSize: "18px" }}>
+                {word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()}
+              </div>
+            )
+          }
+        </div>
+
+        <span
+          id="expand-icon"
+          className="material-icons"
+          onClick={() => setExpanded(!expanded)}
+        >
+          {expanded ? "expand_less" : "expand_more"}
+        </span>
       </div>
 
       <div className="error-container" >
