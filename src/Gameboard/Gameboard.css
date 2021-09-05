@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60vh;
+  height: 50vh;
 }
 
 .controls-section {
@@ -53,6 +53,26 @@
   animation: 1s blink step-end infinite;
 }
 
+.word-bank {
+  border: 2px solid black;
+  margin: 16px;
+  display: flex;
+  height: auto;
+  align-items: center;
+  flex-direction: row;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.word-bank-flex-section {
+  display: flex;
+  height: auto;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
 @keyframes blink {
   from, to {
     color: transparent;
@@ -60,4 +80,10 @@
   50% {
     color: #f6cb43;
   }
+}
+
+#expand-icon {
+  margin-left: auto;
+  margin-bottom: auto;
+  padding-top: 2px;
 }

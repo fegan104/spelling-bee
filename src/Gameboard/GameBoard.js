@@ -1,20 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Gameboard.css'
 import Heaxagon from "../Hexagon/Hexagon";
 import { actions } from '../actions';
+import { isValidWordAsync } from '../dictionaryDataSource.js'
 
+
+const ERROR_TIMEOUT = 2_000
 
 function GameBoard({
   innerLetter,
   outerLetters,
   score,
   activeInput,
+  previousWords,
   error,
   dispatch
 }) {
 
+  const [expanded, setExpanded] = useState(false)
+
   useEffect(() => {
-    setTimeout(() => dispatch({ type: actions.CLEAR_ERROR }), 1_500)
+    setTimeout(() => dispatch({ type: actions.CLEAR_ERROR }), ERROR_TIMEOUT)
   }, [error, dispatch])
 
   const onHexClicked = (letter) => {
@@ -22,6 +28,11 @@ function GameBoard({
       type: actions.ADD_LETTER,
       payload: letter
     })
+  }
+
+  const onEnter = async () => {
+    const isValid = await isValidWordAsync(activeInput.join(""))
+    dispatch({ type: actions.ENTER_WORD, payload: isValid })
   }
 
   const renderSpanWithAccent = (spanContent, accentLetter) => {
@@ -40,6 +51,31 @@ function GameBoard({
     <div>
       <div className="score">
         Score: {score}
+      </div>
+
+      <div className="word-bank">
+        <div
+          className="word-bank-flex-section"
+          style={{
+            flexWrap: expanded ? "wrap" : "nowrap"
+          }}
+        >
+          {
+            previousWords?.map(word =>
+              <div key={word} style={{ margin: "4px", fontSize: "18px" }}>
+                {word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()}
+              </div>
+            )
+          }
+        </div>
+
+        <span
+          id="expand-icon"
+          className="material-icons"
+          onClick={() => setExpanded(!expanded)}
+        >
+          {expanded ? "expand_less" : "expand_more"}
+        </span>
       </div>
 
       <div className="error-container" >
@@ -72,7 +108,7 @@ function GameBoard({
       <div className="controls-section">
         <button key={0} className="pill-button" onClick={() => dispatch({ type: actions.DELETE_LETTER })}> Delete </button>
         <button key={1} className="pill-button" onClick={() => dispatch({ type: actions.SHUFFLE })}> Shuffle </button>
-        <button key={2} className="pill-button" onClick={() => dispatch({ type: actions.ENTER_WORD, payload: true })}> Enter </button>
+        <button key={2} className="pill-button" onClick={onEnter}> Enter </button>
       </div>
     </div>
   );

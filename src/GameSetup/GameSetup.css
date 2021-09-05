@@ -4,12 +4,14 @@
   justify-content: center;
   height: 100vh;
   flex-wrap: wrap;
+  width: 100vw;
   background-color: #f6cb43;
 }
 
 .bee-icon {
-  font-size: 100px;
+  font-size: 90px;
   width: 100vw;
+  margin-bottom: 8px;
 }
 
 .setup-title {
@@ -41,4 +43,8 @@
   font-weight: bold;
   color: #f6cb43;
   background: black;
+}
+
+button:disabled {
+  opacity: 0.38;
 }

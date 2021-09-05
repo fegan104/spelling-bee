@@ -35,7 +35,7 @@ export const reducer = (state, action) => {
       return {
         ...state,
         activeInput: [],
-        submittedWords: error ? state.submittedWords : [...new Set([...state.submittedWords, state.activeInput.join("")])],
+        submittedWords: error ? state.submittedWords : [...new Set([state.activeInput.join(""), ...state.submittedWords])],
         score: nextScore,
         error
       }

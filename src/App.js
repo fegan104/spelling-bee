@@ -15,7 +15,7 @@ const initState = {
 function App() {
 
   const [state, dispatch] = useReducer(reducer, initState)
-  console.log(JSON.stringify(state, null, 4))
+
   return (
     <div className="App">
       {
@@ -26,6 +26,7 @@ function App() {
             outerLetters={state.outerLetters}
             score={state.score}
             activeInput={state.activeInput}
+            previousWords={state.submittedWords}
             error={state.error}
             dispatch={dispatch}
           />
