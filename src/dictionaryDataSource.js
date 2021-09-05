@@ -18,7 +18,9 @@ export const fetchDictionary = async () => {
     console.log("Starting dictionary fetch")
     const response = await fetch("/processed_words.txt")
     const fileString = await response.text()
+    console.log(`Raw file string ${fileString}`)
     dictionary = fileString.split("\r\n")
+    console.log(`Processed dictionary ${dictionary}`)
     console.log(`Successfully processed words ${dictionary.length} in dictionary`)
   } catch (err) {
     console.error(err)
