@@ -27,6 +27,10 @@
   user-select: none;
 }
 
+.hexagon:active {
+  transform: scale(0.9);
+}
+
 .hexagon::before, .hexagon::after {
   content: "";
   position: absolute;

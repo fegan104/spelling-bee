@@ -29,3 +29,7 @@ code {
   border-radius: 100px;
   border: 2px solid black;
 }
+
+.pill-button:active {
+  transform: scale(0.9);
+}
